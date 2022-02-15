@@ -1,22 +1,22 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.users.model;
 
 import com.salesianos.dam.anuel.MiarmaNetwork.model.Publicacion;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+
 import org.hibernate.annotations.Parameter;
 
 
@@ -26,6 +26,8 @@ import org.hibernate.annotations.Parameter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails {
 
@@ -49,6 +51,13 @@ public class User implements UserDetails {
     @Column(unique = true, updatable = false)
     private String nick;
 
+    @Email
+    @Column(unique = true, updatable = false)
+    private String email;
+
+    private String password;
+
+
     private String avatar;
 
     private boolean isPublic;
@@ -60,17 +69,25 @@ public class User implements UserDetails {
 
     private String nombre;
 
-    public List<Publicacion> publicacionList;
-    
-    
+    @Enumerated(EnumType.STRING)
+    private Role roles;
 
+    private String phone;
 
+    private List<Publicacion> publicacionList;
+
+    private Set<User> seguidores;
+
+    private Set<User> seguidos;
+
+    private Set<Solicitud> followsRequest;
+
+    private Set<Solicitud> followReceived;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority("ROLE_" + roles.name()));
     }
-
     @Override
     public String getPassword() {
         return null;
@@ -100,4 +117,33 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return false;
     }
+
+
+    public void follow(User user) {
+        seguidos.add(user);
+        user.getSeguidos().add(this);
+    }
+
+    public boolean canFollow(String nick){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String activeNick = auth.getName();
+        if (nick == activeNick)
+            return false;
+        for (User user : seguidores) {
+            if (user.getNick().equals(activeNick))
+                return false;
+        }
+        for (Solicitud solicitud : followReceived) {
+            if (solicitud.getSender().getNick().equals(activeNick))
+                return false;
+        }
+        for (Solicitud solicitud : followsRequest) {
+            if (solicitud.getReceiver().getNick().equals(activeNick));
+                return false;
+        }
+        return true;
+
+    }
+
+
 }
