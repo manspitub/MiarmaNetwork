@@ -61,6 +61,8 @@ public class User implements UserDetails {
     private String nombre;
 
     public List<Publicacion> publicacionList;
+    
+    
 
 
 
