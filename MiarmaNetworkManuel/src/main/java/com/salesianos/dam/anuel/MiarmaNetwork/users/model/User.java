@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -48,16 +50,23 @@ public class User implements UserDetails {
 
 
     @NaturalId
+    @NotBlank
+    @Size(max = 15)
     @Column(unique = true, updatable = false)
     private String nick;
 
     @Email
+    @NotBlank
+    @Size(max = 40)
     @Column(unique = true, updatable = false)
     private String email;
 
+    @NotBlank
+    @Size(min = 5, max = 100)
     private String password;
 
 
+    @NotBlank
     private String avatar;
 
     private boolean isPublic;

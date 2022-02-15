@@ -24,7 +24,8 @@ public class UserDtoConverter {
                                                                                                         .followsRequest(u.getFollowsRequest())
                                                                                                                 .fechaNacimiento(u.getFechaNacimiento())
                                                                                                                         .publicacionList(u.getPublicacionList())
-                build();
+                                                                                                                                .biografia(u.getBiografia())
+                .build();
     }
 
 

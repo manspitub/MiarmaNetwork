@@ -1,8 +1,12 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.security.payload;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 public class RegisterRequest {
 
@@ -22,5 +26,10 @@ public class RegisterRequest {
     @NotBlank
     @Size(min = 6, max = 20)
     private String password;
+
+    @Past
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @NotBlank
+    private LocalDateTime fechaNacimiento;
 
 }
