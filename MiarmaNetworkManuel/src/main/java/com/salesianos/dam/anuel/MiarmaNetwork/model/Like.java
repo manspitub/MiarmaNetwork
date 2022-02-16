@@ -1,5 +1,6 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.model;
 
+import com.salesianos.dam.anuel.MiarmaNetwork.model.publicacion.Publicacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

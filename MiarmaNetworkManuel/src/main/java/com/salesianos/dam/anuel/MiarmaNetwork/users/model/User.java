@@ -1,6 +1,6 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.users.model;
 
-import com.salesianos.dam.anuel.MiarmaNetwork.model.Publicacion;
+import com.salesianos.dam.anuel.MiarmaNetwork.model.publicacion.Publicacion;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
@@ -15,7 +15,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -97,14 +96,10 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + roles.name()));
     }
-    @Override
-    public String getPassword() {
-        return null;
-    }
 
     @Override
     public String getUsername() {
-        return null;
+        return nick;
     }
 
     @Override

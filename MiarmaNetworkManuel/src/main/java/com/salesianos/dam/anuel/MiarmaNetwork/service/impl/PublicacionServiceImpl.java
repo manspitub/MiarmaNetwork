@@ -1,7 +1,7 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.service.impl;
 
 import com.salesianos.dam.anuel.MiarmaNetwork.dto.CreatePublicacionDto;
-import com.salesianos.dam.anuel.MiarmaNetwork.model.Publicacion;
+import com.salesianos.dam.anuel.MiarmaNetwork.model.publicacion.Publicacion;
 import com.salesianos.dam.anuel.MiarmaNetwork.repo.PublicacionRepository;
 import com.salesianos.dam.anuel.MiarmaNetwork.service.PublicacionService;
 import com.salesianos.dam.anuel.MiarmaNetwork.service.StorageService;

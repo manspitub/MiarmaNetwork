@@ -1,17 +1,11 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.users.dto;
 
-import com.salesianos.dam.anuel.MiarmaNetwork.model.Publicacion;
+import com.salesianos.dam.anuel.MiarmaNetwork.model.publicacion.Publicacion;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.Role;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.Solicitud;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.User;
 import lombok.*;
-import org.hibernate.annotations.NaturalId;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Lob;
-import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;

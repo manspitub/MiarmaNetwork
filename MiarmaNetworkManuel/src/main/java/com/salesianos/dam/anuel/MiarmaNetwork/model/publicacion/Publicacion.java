@@ -1,14 +1,12 @@
-package com.salesianos.dam.anuel.MiarmaNetwork.model;
+package com.salesianos.dam.anuel.MiarmaNetwork.model.publicacion;
 
+import com.salesianos.dam.anuel.MiarmaNetwork.users.model.User;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.io.File;
+import javax.persistence.*;
 import java.time.Instant;
 
 
@@ -33,6 +31,8 @@ public class Publicacion {
     @CreatedDate
     private Instant updatedAt;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     @CreatedBy
     private User user;
 

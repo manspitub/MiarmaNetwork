@@ -2,8 +2,12 @@ package com.salesianos.dam.anuel.MiarmaNetwork.security.jwt;
 
 
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.User;
+import com.salesianos.dam.anuel.MiarmaNetwork.users.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,7 +25,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
-    private final UserService userService;
+    private final UserRepository repository;
     private final JwtProvider jwtProvider;
 
 
@@ -35,14 +39,14 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
                 UUID userId = jwtProvider.getUserIdFromJwt(token);
 
-                Optional<User> usuario = userService.findById(userId);
+                Optional<User> usuario = repository.findById(userId);
 
                 if (usuario.isPresent()) {
-                    Usuario user = usuario.get();
+                    User user = usuario.get();
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(
                                     user,
-                                    user.getRole(),
+                                    user.getRoles(),
                                     user.getAuthorities()
                             );
                     authentication.setDetails(new WebAuthenticationDetails(request));
