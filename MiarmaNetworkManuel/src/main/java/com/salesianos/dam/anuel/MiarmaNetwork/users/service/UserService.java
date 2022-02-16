@@ -1,5 +1,6 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.users.service;
 
+import com.salesianos.dam.anuel.MiarmaNetwork.security.payload.RegisterRequest;
 import com.salesianos.dam.anuel.MiarmaNetwork.service.StorageService;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.dto.CreateUserDto;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.dto.GetUserDto;
@@ -34,44 +35,44 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
 
-
     @Override
     public UserDetails loadUserByUsername(String nick) throws UsernameNotFoundException {
         return this.userRepository.findFirstByNick(nick)
-                .orElseThrow(()-> new UsernameNotFoundException(nick + " no encontrado"));
+                .orElseThrow(() -> new UsernameNotFoundException(nick + " no encontrado"));
     }
 
 
-    public Optional<com.salesianos.dam.anuel.MiarmaNetwork.users.model.User> getUser(UUID id){
+    public Optional<com.salesianos.dam.anuel.MiarmaNetwork.users.model.User> getUser(UUID id) {
         return userRepository.findById(id);
     }
 
-    public User save(CreateUserDto userDto, MultipartFile file){
+    public User save(RegisterRequest userDto, MultipartFile file) {
 
         //TODO añadir excepciones
 
-        if (userRepository.existsByNick(userDto.getNick())){
-            String filename = storageService.store(file);
+        if (userRepository.existsByNick(userDto.getNick())) {
 
-            String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/download")
-                    .path(filename)
-                    .toUriString();
-
-            User usuario = User.builder()
-                    .nick(userDto.getNick())
-                    .avatar(uri)
-                    .email(userDto.getEmail())
-                    .fechaNacimiento(userDto.getFechaNacimiento())
-                    .password(passwordEncoder.encode(userDto.getPassword()))
-                    .build();
-
-            usuario.setPublic(userDto.isPublic());
-
-            return userRepository.save(usuario);
-        } else{
-
+            //Excepcion
         }
+        String filename = storageService.store(file);
+
+        String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/download")
+                .path(filename)
+                .toUriString();
+
+        User usuario = User.builder()
+                .nick(userDto.getNick())
+                .avatar(uri)
+                .email(userDto.getEmail())
+                .fechaNacimiento(userDto.getFechaNacimiento())
+                .password(passwordEncoder.encode(userDto.getPassword()))
+                .build();
+
+        usuario.setPublic(userDto.isPublic());
+
+        return userRepository.save(usuario);
+    }
 
 
     }
@@ -87,5 +88,5 @@ public class UserService implements UserDetailsService {
 
 
 
-    }
+
 

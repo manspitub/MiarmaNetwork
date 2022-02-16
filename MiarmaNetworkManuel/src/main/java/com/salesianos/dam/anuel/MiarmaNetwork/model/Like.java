@@ -1,6 +1,7 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.model;
 
 import com.salesianos.dam.anuel.MiarmaNetwork.model.publicacion.Publicacion;
+import com.salesianos.dam.anuel.MiarmaNetwork.users.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,6 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class Like {
 
     @Id

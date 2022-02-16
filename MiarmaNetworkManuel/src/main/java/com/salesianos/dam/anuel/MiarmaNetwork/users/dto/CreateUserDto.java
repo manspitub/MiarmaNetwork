@@ -6,6 +6,7 @@ import com.salesianos.dam.anuel.MiarmaNetwork.users.model.Solicitud;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.User;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -22,15 +23,16 @@ import java.util.Set;
 public class CreateUserDto {
 
 
-
+    @NotBlank
     private String nick;
 
-
+    @NotBlank
     private String email;
 
+    @NotBlank
     private String password;
 
-
+    @NotBlank
     private String avatar;
 
     private boolean isPublic;
