@@ -1,6 +1,6 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.users.model;
 
-import com.salesianos.dam.anuel.MiarmaNetwork.model.post.Publicacion;
+import com.salesianos.dam.anuel.MiarmaNetwork.post.model.Publicacion;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
@@ -88,8 +88,10 @@ public class User implements UserDetails {
 
     private Set<User> seguidos;
 
+    @Column(name = "followRequest")
     private Set<Solicitud> followsRequest;
 
+    @Column(name = "followReceived")
     private Set<Solicitud> followReceived;
 
     @Override

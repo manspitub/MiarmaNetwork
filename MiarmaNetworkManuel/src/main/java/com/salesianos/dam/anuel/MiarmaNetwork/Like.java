@@ -1,6 +1,6 @@
-package com.salesianos.dam.anuel.MiarmaNetwork.model;
+package com.salesianos.dam.anuel.MiarmaNetwork;
 
-import com.salesianos.dam.anuel.MiarmaNetwork.model.post.Publicacion;
+import com.salesianos.dam.anuel.MiarmaNetwork.post.model.Publicacion;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;

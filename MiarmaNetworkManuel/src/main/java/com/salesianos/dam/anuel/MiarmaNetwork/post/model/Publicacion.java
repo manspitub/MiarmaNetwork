@@ -1,4 +1,4 @@
-package com.salesianos.dam.anuel.MiarmaNetwork.model.post;
+package com.salesianos.dam.anuel.MiarmaNetwork.post.model;
 
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.User;
 import lombok.*;
