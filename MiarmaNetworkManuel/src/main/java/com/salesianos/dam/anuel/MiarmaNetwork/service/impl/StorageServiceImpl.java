@@ -1,8 +1,8 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.service.impl;
 
 import com.salesianos.dam.anuel.MiarmaNetwork.config.StorageProperties;
-import com.salesianos.dam.anuel.MiarmaNetwork.exceptions.FileNotFoundException;
-import com.salesianos.dam.anuel.MiarmaNetwork.exceptions.StorageException;
+import com.salesianos.dam.anuel.MiarmaNetwork.media.exceptions.FileNotFoundException;
+import com.salesianos.dam.anuel.MiarmaNetwork.media.exceptions.StorageException;
 import com.salesianos.dam.anuel.MiarmaNetwork.service.StorageService;
 import com.salesianos.dam.anuel.MiarmaNetwork.utils.MediaTypeUrlResource;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +13,8 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.MalformedParametersException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;

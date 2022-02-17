@@ -1,4 +1,4 @@
-package com.salesianos.dam.anuel.MiarmaNetwork.exceptions;
+package com.salesianos.dam.anuel.MiarmaNetwork.media.exceptions;
 
 public class FileNotFoundException extends StorageException{
     public FileNotFoundException(String message, Exception e) {

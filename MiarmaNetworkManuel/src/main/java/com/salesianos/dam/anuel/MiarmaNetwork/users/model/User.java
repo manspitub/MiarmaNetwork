@@ -4,8 +4,9 @@ import com.salesianos.dam.anuel.MiarmaNetwork.post.model.Publicacion;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
+import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.data.neo4j.core.schema.Relationship;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,12 +26,12 @@ import org.hibernate.annotations.Parameter;
 
 
 @Entity
+@NodeEntity
 @Table
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
-@Setter
+@Data
 @EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails {
 
@@ -89,6 +90,7 @@ public class User implements UserDetails {
 
     //Set para que los follows sean únicos
     @Relationship(type = "IS_FOLLOWING")
+    @ElementCollection(targetClass = Set.class)
     private Set<Follow> follows;
 
 
@@ -124,31 +126,6 @@ public class User implements UserDetails {
     }
 
 
-//    public void follow(User user) {
-//        follows.add(user);
-//        user.getSeguidos().add(this);
-//    }
-
-//    public boolean canFollow(String nick){
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        String activeNick = auth.getName();
-//        if (nick == activeNick)
-//            return false;
-//        for (User user : seguidores) {
-//            if (user.getNick().equals(activeNick))
-//                return false;
-//        }
-//        for (Solicitud solicitud : followReceived) {
-//            if (solicitud.getSender().getNick().equals(activeNick))
-//                return false;
-//        }
-//        for (Solicitud solicitud : followsRequest) {
-//            if (solicitud.getReceiver().getNick().equals(activeNick));
-//                return false;
-//        }
-//        return true;
-//
-//    }
 
 
 }

@@ -1,4 +1,4 @@
-package com.salesianos.dam.anuel.MiarmaNetwork.exceptions;
+package com.salesianos.dam.anuel.MiarmaNetwork.media.exceptions;
 
 public class StorageException extends RuntimeException {
     public StorageException(String message, Exception e) {

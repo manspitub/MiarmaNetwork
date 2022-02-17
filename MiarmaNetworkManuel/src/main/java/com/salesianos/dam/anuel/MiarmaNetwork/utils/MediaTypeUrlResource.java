@@ -1,6 +1,6 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.utils;
 
-import com.salesianos.dam.anuel.MiarmaNetwork.exceptions.StorageException;
+import com.salesianos.dam.anuel.MiarmaNetwork.media.exceptions.StorageException;
 import org.apache.tika.Tika;
 import org.springframework.core.io.UrlResource;
 

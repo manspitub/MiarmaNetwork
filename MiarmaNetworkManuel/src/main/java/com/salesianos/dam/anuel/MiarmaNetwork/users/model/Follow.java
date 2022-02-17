@@ -4,7 +4,7 @@ import lombok.Builder;
 import org.neo4j.ogm.annotation.*;
 
 
-@RelationshipEntity
+@RelationshipEntity("IS_FOLLOWING")
 @Builder
 public class Follow {
 

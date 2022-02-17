@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.Instant;
 
 
@@ -15,8 +16,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
-@Getter
-@Setter
+@Data
 public class Publicacion {
 
     @Id
@@ -28,8 +28,7 @@ public class Publicacion {
     @CreatedDate
     private Instant createAt;
 
-    @CreatedDate
-    private Instant updatedAt;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -38,11 +37,13 @@ public class Publicacion {
 
     private String texto;
 
-    @LastModifiedBy
-    private String lastModifiedBy;
+
 
     @NonNull
     private String file;
+
+    @NotBlank
+    private boolean isPublic;
 
 
 

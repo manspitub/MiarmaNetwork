@@ -1,4 +1,4 @@
-package com.salesianos.dam.anuel.MiarmaNetwork.dto;
+package com.salesianos.dam.anuel.MiarmaNetwork.post.dto;
 
 import lombok.Builder;
 import lombok.Value;
@@ -11,5 +11,7 @@ public class CreatePublicacionDto {
     private String titulo;
     private String texto;
     private String file;
+    private boolean isPublic;
+
 
 }
