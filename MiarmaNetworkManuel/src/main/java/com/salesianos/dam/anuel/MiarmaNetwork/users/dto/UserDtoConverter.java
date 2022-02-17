@@ -17,13 +17,7 @@ public class UserDtoConverter {
                                                 .avatar(u.getAvatar())
                                                         .isPublic(u.isPublic())
                                                                 .name(u.getUsername())
-                                                                        .phone(u.getPhone())
-                                                                                .seguidores(u.getSeguidores())
-                                                                                        .seguidos(u.getSeguidos())
-                                                                                                .followsReceived(u.getFollowReceived())
-                                                                                                        .followsRequest(u.getFollowsRequest())
                                                                                                                 .fechaNacimiento(u.getFechaNacimiento())
-                                                                                                                        .publicacionList(u.getPublicacionList())
                                                                                                                                 .biografia(u.getBiografia())
                 .build();
     }

@@ -94,11 +94,8 @@ public class UserService implements UserDetailsService {
         return userRepository.save(theFollower);
     }
 
-    public boolean isFollowing(User userA, User userB){
-        if (userA.getFollows().){
 
-        }
-    }
+
 
 
     }

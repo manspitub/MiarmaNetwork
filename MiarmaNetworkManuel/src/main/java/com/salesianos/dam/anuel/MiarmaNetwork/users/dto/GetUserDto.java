@@ -23,6 +23,8 @@ public class GetUserDto {
     public String biografia;
     private String name;
     private String avatar;
+    private LocalDateTime fechaNacimiento;
+    private boolean isPublic;
 
 
 
