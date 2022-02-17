@@ -20,6 +20,8 @@ public class UserController {
     @Autowired
     public UserService service;
 
+
+    //Endpoint registro
     @PostMapping("/auth/register")
     public ResponseEntity<?> newUser(@RequestPart("file")MultipartFile file,
                                               @RequestPart("user") RegisterRequest newUser){
@@ -31,6 +33,9 @@ public class UserController {
 
 
     }
+
+    @GetMapping
+    
 
 
 }

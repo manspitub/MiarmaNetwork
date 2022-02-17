@@ -72,6 +72,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ));
   }
 
+      Color _iconColor = Colors.black;
+
   Widget _post() {
     return Container(
       height: 620,
@@ -128,28 +130,51 @@ class _HomeScreenState extends State<HomeScreen> {
             fit: BoxFit.cover,
           ),
           Container(
-
+            padding: EdgeInsets.only(top: 5, left: 7, right: 7, bottom: 1),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 IconButton(
+                  onPressed: () {
+                    setState(() {
+                      if(_iconColor == Colors.black){
+                        _iconColor = Colors.red;
+                      } else{
+                        _iconColor =   Colors.black;
+                      }
+                     
+                    });
+                  },
+                  icon: Icon(Icons.favorite, color: _iconColor),                  
+                ),
+                IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.love)
-                  
+                    
+                  icon: Image(image: NetworkImage("https://www.pinclipart.com/picdir/middle/571-5717511_comment-instagram-icon-png-clipart.png"),),
+          
                 ),
                 IconButton(
                   onPressed: () {},
                   icon: Icon(
-                    Icons.more_horiz,
+                    Icons.send,
                   ),
                   iconSize: 30,
                 ),
                 IconButton(
                   onPressed: () {},
                   icon: Icon(
-                    Icons.more_horiz,
+                    Icons.save,
                   ),
                   iconSize: 30,
                 ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: <Widget>[
+                Text("200"),
+                Icon(Icons.favorite, color: Colors.red,)
               ],
             ),
           )

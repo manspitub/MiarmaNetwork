@@ -1,6 +1,6 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.users.dto;
 
-import com.salesianos.dam.anuel.MiarmaNetwork.model.publicacion.Publicacion;
+import com.salesianos.dam.anuel.MiarmaNetwork.model.post.Publicacion;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.Role;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.Solicitud;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.User;

@@ -1,6 +1,5 @@
-package com.salesianos.dam.anuel.MiarmaNetwork.model.publicacion;
+package com.salesianos.dam.anuel.MiarmaNetwork.model.post;
 
-import jdk.jfr.BooleanFlag;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

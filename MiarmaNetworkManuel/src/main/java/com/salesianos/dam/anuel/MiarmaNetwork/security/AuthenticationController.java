@@ -28,6 +28,8 @@ public class AuthenticationController {
     @Autowired
     private final JwtProvider jwtProvider;
 
+
+    //Endopoint login
     @PostMapping("auth/login")
     public ResponseEntity<?> login (@RequestBody LoginRequest loginRequest){
         Authentication authentication =

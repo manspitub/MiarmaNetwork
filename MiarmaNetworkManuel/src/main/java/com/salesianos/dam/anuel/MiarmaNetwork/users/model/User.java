@@ -1,6 +1,6 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.users.model;
 
-import com.salesianos.dam.anuel.MiarmaNetwork.model.publicacion.Publicacion;
+import com.salesianos.dam.anuel.MiarmaNetwork.model.post.Publicacion;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;

@@ -1,7 +1,7 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.service;
 
 import com.salesianos.dam.anuel.MiarmaNetwork.dto.CreatePublicacionDto;
-import com.salesianos.dam.anuel.MiarmaNetwork.model.publicacion.Publicacion;
+import com.salesianos.dam.anuel.MiarmaNetwork.model.post.Publicacion;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

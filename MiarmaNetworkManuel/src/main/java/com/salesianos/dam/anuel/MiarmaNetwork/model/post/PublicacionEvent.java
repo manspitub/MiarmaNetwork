@@ -1,4 +1,4 @@
-package com.salesianos.dam.anuel.MiarmaNetwork.model.publicacion;
+package com.salesianos.dam.anuel.MiarmaNetwork.model.post;
 
 import lombok.Builder;
 import lombok.Data;
