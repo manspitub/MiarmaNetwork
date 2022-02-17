@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.neo4j.core.schema.Relationship;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,12 +19,13 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.*;
 
+
+
 import org.hibernate.annotations.Parameter;
 
 
 @Entity
 @Table
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -82,17 +84,14 @@ public class User implements UserDetails {
 
     private String phone;
 
+    @OneToMany(mappedBy = "user")
     private List<Publicacion> publicacionList;
 
-    private Set<User> seguidores;
+    //Set para que los follows sean únicos
+    @Relationship(type = "IS_FOLLOWING")
+    private Set<Follow> follows;
 
-    private Set<User> seguidos;
 
-    @Column(name = "followRequest")
-    private Set<Solicitud> followsRequest;
-
-    @Column(name = "followReceived")
-    private Set<Solicitud> followReceived;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -125,31 +124,31 @@ public class User implements UserDetails {
     }
 
 
-    public void follow(User user) {
-        seguidos.add(user);
-        user.getSeguidos().add(this);
-    }
+//    public void follow(User user) {
+//        follows.add(user);
+//        user.getSeguidos().add(this);
+//    }
 
-    public boolean canFollow(String nick){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String activeNick = auth.getName();
-        if (nick == activeNick)
-            return false;
-        for (User user : seguidores) {
-            if (user.getNick().equals(activeNick))
-                return false;
-        }
-        for (Solicitud solicitud : followReceived) {
-            if (solicitud.getSender().getNick().equals(activeNick))
-                return false;
-        }
-        for (Solicitud solicitud : followsRequest) {
-            if (solicitud.getReceiver().getNick().equals(activeNick));
-                return false;
-        }
-        return true;
-
-    }
+//    public boolean canFollow(String nick){
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        String activeNick = auth.getName();
+//        if (nick == activeNick)
+//            return false;
+//        for (User user : seguidores) {
+//            if (user.getNick().equals(activeNick))
+//                return false;
+//        }
+//        for (Solicitud solicitud : followReceived) {
+//            if (solicitud.getSender().getNick().equals(activeNick))
+//                return false;
+//        }
+//        for (Solicitud solicitud : followsRequest) {
+//            if (solicitud.getReceiver().getNick().equals(activeNick));
+//                return false;
+//        }
+//        return true;
+//
+//    }
 
 
 }

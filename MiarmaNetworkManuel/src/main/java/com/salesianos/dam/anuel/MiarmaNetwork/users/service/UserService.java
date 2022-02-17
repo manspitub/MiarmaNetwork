@@ -4,6 +4,7 @@ import com.salesianos.dam.anuel.MiarmaNetwork.security.payload.RegisterRequest;
 import com.salesianos.dam.anuel.MiarmaNetwork.service.StorageService;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.dto.CreateUserDto;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.dto.GetUserDto;
+import com.salesianos.dam.anuel.MiarmaNetwork.users.model.Follow;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.User;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -72,6 +74,30 @@ public class UserService implements UserDetailsService {
         usuario.setPublic(userDto.isPublic());
 
         return userRepository.save(usuario);
+    }
+
+    public User doFollow(User follower, User following){
+        log.info("User "+follower.getNick()+" will follow "+following.getNick());
+
+        User theFollower = userRepository.findByUserId(follower.getId()).orElseThrow(() -> new UsernameNotFoundException("User not found" +follower.getNick()));
+
+        User theFollowing = userRepository.findByUserId(following.getId()).orElseThrow(() -> new UsernameNotFoundException("User not found" +following.getNick()));
+
+        if (theFollower.getFollows() == null)
+            theFollower.setFollows(new HashSet<>());
+
+        theFollower.getFollows().add(Follow.builder()
+                .seguidor(theFollower)
+                .seguido(theFollowing)
+                .build());
+
+        return userRepository.save(theFollower);
+    }
+
+    public boolean isFollowing(User userA, User userB){
+        if (userA.getFollows().){
+
+        }
     }
 
 

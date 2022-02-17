@@ -2,7 +2,6 @@ package com.salesianos.dam.anuel.MiarmaNetwork.users.dto;
 
 import com.salesianos.dam.anuel.MiarmaNetwork.post.model.Publicacion;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.Role;
-import com.salesianos.dam.anuel.MiarmaNetwork.users.model.Solicitud;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.User;
 import lombok.*;
 
@@ -54,8 +53,6 @@ public class CreateUserDto {
 
     private Set<User> seguidos;
 
-    private Set<Solicitud> followsRequest;
 
-    private Set<Solicitud> followReceived;
 
 }

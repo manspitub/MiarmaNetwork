@@ -1,7 +1,6 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.users.dto;
 
 import com.salesianos.dam.anuel.MiarmaNetwork.post.model.Publicacion;
-import com.salesianos.dam.anuel.MiarmaNetwork.users.model.Solicitud;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.User;
 import lombok.*;
 
@@ -24,13 +23,7 @@ public class GetUserDto {
     public String biografia;
     private String name;
     private String avatar;
-    private boolean isPublic;
-    private LocalDateTime fechaNacimiento;
-    private String phone ;
-    private Set<User> seguidores;
-    private Set<User> seguidos;
-    private List<Publicacion> publicacionList;
-    private Set<Solicitud> followsRequest;
-    private Set<Solicitud> followsReceived;
+
+
 
 }
