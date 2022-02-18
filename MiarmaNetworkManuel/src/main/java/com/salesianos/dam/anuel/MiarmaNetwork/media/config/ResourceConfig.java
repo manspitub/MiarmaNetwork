@@ -1,21 +1,17 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.media.config;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
-public class ResourceConfig implements WebMvcConfigurer {
+@ConfigurationProperties(prefix = "storage")
+@Getter @Setter
 
-    @Value("${file.upload-dir}")
-    private String uploadDirectory;
+public class ResourceConfig {
 
-    @Value("${file.path.prefix}")
-    private String filePathPrefix;
+    private String location;
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry
-                .addResourceHandler(filePathPrefix + "/++")
-                .addResourceLocations("file"+ uploadDirectory);
-    }
+
 }

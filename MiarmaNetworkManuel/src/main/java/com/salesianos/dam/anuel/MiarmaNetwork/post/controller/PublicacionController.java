@@ -1,5 +1,6 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.post.controller;
 
+import com.salesianos.dam.anuel.MiarmaNetwork.media.service.FileStorageService;
 import com.salesianos.dam.anuel.MiarmaNetwork.post.dto.CreatePublicacionDto;
 import com.salesianos.dam.anuel.MiarmaNetwork.post.dto.GetPublicacionDto;
 import com.salesianos.dam.anuel.MiarmaNetwork.post.dto.PublicacionDtoConverter;
@@ -7,7 +8,6 @@ import com.salesianos.dam.anuel.MiarmaNetwork.post.model.Publicacion;
 import com.salesianos.dam.anuel.MiarmaNetwork.post.repo.PublicacionRepository;
 import com.salesianos.dam.anuel.MiarmaNetwork.post.service.PublicacionService;
 import com.salesianos.dam.anuel.MiarmaNetwork.post.service.impl.PublicacionServiceImpl;
-import com.salesianos.dam.anuel.MiarmaNetwork.service.StorageService;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ public class PublicacionController {
     private final PublicacionRepository repository;
     private final PublicacionService service;
     private final PublicacionServiceImpl serviceImpl;
-    private final StorageService storageService;
+    private final FileStorageService storageService;
     private final PublicacionDtoConverter converter;
 
     @PostMapping("/post")

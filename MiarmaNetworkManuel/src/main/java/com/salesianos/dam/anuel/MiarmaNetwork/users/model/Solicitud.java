@@ -1,10 +1,18 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.users.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+@Entity
+@Table
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Data
 public class Solicitud {
 
     @Id

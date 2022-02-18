@@ -1,4 +1,4 @@
-package com.salesianos.dam.anuel.MiarmaNetwork.utils;
+package com.salesianos.dam.anuel.MiarmaNetwork.media.utils;
 
 import com.salesianos.dam.anuel.MiarmaNetwork.media.exceptions.StorageException;
 import org.apache.tika.Tika;
@@ -29,12 +29,13 @@ public class MediaTypeUrlResource extends UrlResource {
     public MediaTypeUrlResource(String protocol, String location, String fragment) throws MalformedURLException {
         super(protocol, location, fragment);
     }
+
     public String getType() {
         Tika tika = new Tika();
         try {
             return tika.detect(this.getFile());
-        } catch (IOException exception) {
-            throw new StorageException("Error obteniendo el tipo MIME del fichero",exception);
+        } catch (IOException e) {
+            throw new StorageException("Error obteniendo el tipo MIME del fichero", e);
         }
     }
 }

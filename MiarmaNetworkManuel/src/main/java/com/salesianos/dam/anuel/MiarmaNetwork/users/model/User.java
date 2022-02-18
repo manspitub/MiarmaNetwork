@@ -27,7 +27,6 @@ import org.hibernate.annotations.Parameter;
 
 
 @Entity
-@NodeEntity
 @Table
 @NoArgsConstructor
 @AllArgsConstructor
@@ -48,7 +47,7 @@ public class User implements UserDetails {
                     )
             }
     )
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column( updatable = false, nullable = false)
     private UUID id;
 
 

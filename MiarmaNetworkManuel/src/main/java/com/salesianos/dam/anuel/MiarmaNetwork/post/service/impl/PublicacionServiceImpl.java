@@ -1,10 +1,10 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.post.service.impl;
 
+import com.salesianos.dam.anuel.MiarmaNetwork.media.service.FileStorageService;
 import com.salesianos.dam.anuel.MiarmaNetwork.post.dto.CreatePublicacionDto;
 import com.salesianos.dam.anuel.MiarmaNetwork.post.model.Publicacion;
 import com.salesianos.dam.anuel.MiarmaNetwork.post.repo.PublicacionRepository;
 import com.salesianos.dam.anuel.MiarmaNetwork.post.service.PublicacionService;
-import com.salesianos.dam.anuel.MiarmaNetwork.service.StorageService;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.User;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.service.base.BaseService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.Optional;
 public class PublicacionServiceImpl extends BaseService<Publicacion, Long, PublicacionRepository> implements PublicacionService{
 
     private final PublicacionRepository repository;
-    private final StorageService storageService;
+    private final FileStorageService storageService;
 
     @Override
     public Publicacion save(CreatePublicacionDto publicacionDto, MultipartFile file, @AuthenticationPrincipal User currentUser) {
@@ -38,7 +38,7 @@ public class PublicacionServiceImpl extends BaseService<Publicacion, Long, Publi
                 .titulo(publicacionDto.getTitulo())
                 .texto(publicacionDto.getTexto())
                 .createAt(Instant.now())
-                .file(filename)
+                .file(uri)
                 .user(currentUser)
                 .isPublic(publicacionDto.isPublic())
                 .build());

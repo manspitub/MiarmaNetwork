@@ -81,20 +81,54 @@ public class UserController {
     @PostMapping("/follow/accept/{id}")
     public ResponseEntity<?> acceptRequestFollow(@AuthenticationPrincipal User currentUser, @PathVariable Long id){
 
-        List<Solicitud> solicituds = service.getReceivedSolicitudByUser(currentUser);
 
-        List <Solicitud> solicitudes= new ArrayList<>();
 
-        if (solicituds != null) {
-            solicitudes.addAll(solicituds.stream().collect(Collectors.toList()));
+        Optional <Solicitud> solicitud = solicitudRepository.findById(id);
+
+        if (solicitud.isPresent()){
+            if (solicitud.get().getReceived().equals(currentUser)){
+                solicitudRepository.delete(solicitud.get());
+                currentUser.getFollowing().add(solicitud.get().getSender());
+                service.save(currentUser);
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+        } else {
+            return ResponseEntity.notFound().build();
         }
 
 
-        solicitudes = solicitudRepository.findById(id);
-
+        return ResponseEntity.ok().build();
 
 
     }
+
+    @PostMapping("follow/decline/{id}")
+    public ResponseEntity<?> declineRequestFollow(@AuthenticationPrincipal User currentUser, @PathVariable Long id){
+
+        Optional<Solicitud> solicitud = solicitudRepository.findById(id);
+
+        if (solicitud.isPresent()){
+            if (solicitud.get().getReceived().equals(currentUser)){
+                solicitudRepository.delete(solicitud.get());
+
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/follow/list")
+    public ResponseEntity<?> getSolicitudes(@AuthenticationPrincipal User currentUser){
+
+        return ResponseEntity.ok(service.getReceivedSolicitudByUser(currentUser));
+
+    }
+
 
 
 }

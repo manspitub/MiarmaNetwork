@@ -1,7 +1,7 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.users.service;
 
+import com.salesianos.dam.anuel.MiarmaNetwork.media.service.FileStorageService;
 import com.salesianos.dam.anuel.MiarmaNetwork.security.payload.RegisterRequest;
-import com.salesianos.dam.anuel.MiarmaNetwork.service.StorageService;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.Solicitud;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.User;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.repo.SolicitudRepository;
@@ -32,7 +32,7 @@ public class UserService extends BaseService<User, UUID, UserRepository>implemen
 
     @Autowired
     private UserRepository userRepository;
-    private final StorageService storageService;
+    private final FileStorageService storageService;
     private final PasswordEncoder passwordEncoder;
     @Autowired
     private final SolicitudRepository solicitudRepository;
