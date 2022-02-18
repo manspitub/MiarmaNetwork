@@ -6,6 +6,7 @@ import com.salesianos.dam.anuel.MiarmaNetwork.post.repo.PublicacionRepository;
 import com.salesianos.dam.anuel.MiarmaNetwork.post.service.PublicacionService;
 import com.salesianos.dam.anuel.MiarmaNetwork.service.StorageService;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.User;
+import com.salesianos.dam.anuel.MiarmaNetwork.users.service.base.BaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class PublicacionServiceImpl implements PublicacionService {
+public class PublicacionServiceImpl extends BaseService<Publicacion, Long, PublicacionRepository> implements PublicacionService{
 
     private final PublicacionRepository repository;
     private final StorageService storageService;
@@ -52,4 +53,6 @@ public class PublicacionServiceImpl implements PublicacionService {
     public Optional<Publicacion> findbyId(Long id) {
         return repository.findById(id);
     }
+
+
 }

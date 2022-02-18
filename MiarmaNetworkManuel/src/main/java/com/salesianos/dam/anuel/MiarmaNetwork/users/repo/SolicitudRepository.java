@@ -7,11 +7,17 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 
 public interface SolicitudRepository extends JpaRepository<Solicitud, Long> {
 
-    @Modifying(clearAutomatically = true)
-    @Query("DELETE FROM Solicitud s WHERE (s.sender = :user AND s.receiver = :followed)" +
-    "OR (s.sender = :followed AND s.receiver = :user)")
-    void deleteSolicitud(@Param("user")User user, @Param("followed")User followed);
+
+    @Query("SELECT n FROM Solicitud n WHERE n.sender = ?1 AND n.reciver = ?2")
+    Solicitud findSolicitudByBothUsers(User sender, User receiver);
+
+    @Query("SELECT n FROM Solicitud n WHERE n.receiver = ?1")
+    List<Solicitud> findReceivedSolicitudByUser(User user);
+
+
 }

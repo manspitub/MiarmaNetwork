@@ -2,15 +2,16 @@ package com.salesianos.dam.anuel.MiarmaNetwork.users.service;
 
 import com.salesianos.dam.anuel.MiarmaNetwork.security.payload.RegisterRequest;
 import com.salesianos.dam.anuel.MiarmaNetwork.service.StorageService;
-import com.salesianos.dam.anuel.MiarmaNetwork.users.dto.CreateUserDto;
-import com.salesianos.dam.anuel.MiarmaNetwork.users.dto.GetUserDto;
-import com.salesianos.dam.anuel.MiarmaNetwork.users.model.Follow;
+import com.salesianos.dam.anuel.MiarmaNetwork.users.model.Solicitud;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.User;
+import com.salesianos.dam.anuel.MiarmaNetwork.users.repo.SolicitudRepository;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.repo.UserRepository;
+import com.salesianos.dam.anuel.MiarmaNetwork.users.service.base.BaseService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,14 +20,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 
 @Component
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserService extends BaseService<User, UUID, UserRepository>implements UserDetailsService {
 
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
@@ -35,6 +34,8 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     private final StorageService storageService;
     private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private final SolicitudRepository solicitudRepository;
 
 
     @Override
@@ -76,22 +77,38 @@ public class UserService implements UserDetailsService {
         return userRepository.save(usuario);
     }
 
-    public User doFollow(User follower, User following){
-        log.info("User "+follower.getNick()+" will follow "+following.getNick());
+    public void requestFollow(User sender, User receiver){
+        Solicitud solicitud = getSolicitud(sender, receiver);
+        if (!receiver.getNick().equals(sender.getNick()) && !receiver.getFollowing().contains(sender)
+        && solicitud == null) {
+            solicitudRepository.save(new Solicitud(sender, receiver));
+            return;
+        }
 
-        User theFollower = userRepository.findByUserId(follower.getId()).orElseThrow(() -> new UsernameNotFoundException("User not found" +follower.getNick()));
 
-        User theFollowing = userRepository.findByUserId(following.getId()).orElseThrow(() -> new UsernameNotFoundException("User not found" +following.getNick()));
+    }
 
-        if (theFollower.getFollows() == null)
-            theFollower.setFollows(new HashSet<>());
+    public Solicitud getSolicitud(User sender, User receiver){
+        return solicitudRepository.findSolicitudByBothUsers(sender, receiver);
+    }
 
-        theFollower.getFollows().add(Follow.builder()
-                .seguidor(theFollower)
-                .seguido(theFollowing)
-                .build());
+    public List<Solicitud> getReceivedSolicitudByUser(User user){
+        return solicitudRepository.findReceivedSolicitudByUser(user);
+    }
+    public void follow(User sender, User receivers, UUID id, @AuthenticationPrincipal User currentUser){
 
-        return userRepository.save(theFollower);
+
+
+        try {
+            Optional<User> target = findById(id);
+            if (target.isPresent()){
+                currentUser.getFollowing().add(target.get());
+                save(currentUser);
+            }
+
+        }catch (Exception e){
+            log.info(e.getMessage());
+        }
     }
 
 

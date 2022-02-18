@@ -4,6 +4,7 @@ import com.salesianos.dam.anuel.MiarmaNetwork.post.model.Publicacion;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -88,10 +89,13 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Publicacion> publicacionList;
 
-    //Set para que los follows sean únicos
-    @Relationship(type = "IS_FOLLOWING")
-    @ElementCollection(targetClass = Set.class)
-    private Set<Follow> follows;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "seguimiento",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "following_id"))
+    private Set<User> following;
+
+
 
 
 
@@ -124,6 +128,10 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return false;
     }
+
+
+
+
 
 
 

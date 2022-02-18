@@ -19,4 +19,10 @@ public class Solicitud {
 
 
     private Boolean accepted;
+
+    public Solicitud(User sender, User receiver) {
+        this.sender = sender;
+        this.received = receiver;
+        this.accepted = false;
+    }
 }
