@@ -51,7 +51,7 @@ public class PublicacionController {
                                                   @RequestPart("publicacion")CreatePublicacionDto updatePost, @AuthenticationPrincipal User currentUser){
 
 
-        String newFilename = storageService.store(file);
+        String newFilename = storageService.storeNormal(file);
 
         String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/download")

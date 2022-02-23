@@ -57,7 +57,7 @@ public class UserService extends BaseService<User, UUID, UserRepository>implemen
 
             //Excepcion
         }
-        String filename = storageService.store(file);
+        String filename = storageService.storeNormal(file);
 
         String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/download")

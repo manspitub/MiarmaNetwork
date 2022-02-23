@@ -5,6 +5,10 @@ import com.salesianos.dam.anuel.MiarmaNetwork.media.exceptions.FileNotFoundExcep
 import com.salesianos.dam.anuel.MiarmaNetwork.media.exceptions.StorageException;
 
 import com.salesianos.dam.anuel.MiarmaNetwork.media.utils.MediaTypeUrlResource;
+import io.github.techgnious.IVCompressor;
+import io.github.techgnious.dto.IVSize;
+import io.github.techgnious.dto.ImageFormats;
+import io.github.techgnious.dto.VideoFormats;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import java.beans.BeanProperty;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
@@ -51,17 +56,15 @@ public class FileStorageService {
     }
 
 
-    public String store(MultipartFile file) {
+    public String storeNormal(MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         String newFilename = "";
         try {
-            // Si el fichero está vacío, excepción al canto
             if (file.isEmpty())
                 throw new StorageException("El fichero subido está vacío");
 
             newFilename = filename;
             while(Files.exists(rootLocation.resolve(newFilename))) {
-                // Tratamos de generar uno nuevo
                 String extension = StringUtils.getFilenameExtension(newFilename);
                 String name = newFilename.replace("."+extension,"");
 
@@ -86,6 +89,98 @@ public class FileStorageService {
         return newFilename;
 
     }
+
+    public String storeResizedImage(MultipartFile file, int width)throws Exception{
+        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+
+        String extension = StringUtils.getFilenameExtension(filename);
+
+        String name = filename.replace("."+extension,"");
+
+        IVCompressor compressor = new IVCompressor();
+        IVSize resolution = new IVSize();
+        resolution.setWidth(width);
+        resolution.setHeight(width);
+
+        byte[] input = compressor.resizeImageWithCustomRes(file.getBytes(), ImageFormats.JPEG, resolution);
+
+        ByteArrayInputStream bis = new ByteArrayInputStream(input);
+
+        try {
+
+            if (file.isEmpty())
+                throw new StorageException("El fichero subido está vacío");
+
+
+            while(Files.exists(rootLocation.resolve(filename))) {
+
+
+                String suffix = Long.toString(System.currentTimeMillis());
+                suffix = suffix.substring(suffix.length()-6);
+
+                filename = name + "_" + suffix + "." + extension;
+            }
+
+            try (InputStream inputStream = bis) {
+                Files.copy(inputStream, rootLocation.resolve(filename),
+                        StandardCopyOption.REPLACE_EXISTING);
+            }
+
+
+
+        } catch (IOException ex) {
+            throw new StorageException("Error en el almacenamiento del fichero: " + filename, ex);
+        }
+
+
+        return filename;
+    }
+
+    public String storeVideoResized(MultipartFile file, int width) throws IOException, Exception {
+
+        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+
+        String extension = StringUtils.getFilenameExtension(filename);
+        String name = filename.replace("."+extension,"");
+
+        IVCompressor compressor = new IVCompressor();
+        IVSize customRes = new IVSize();
+        customRes.setWidth(width);
+        customRes.setHeight(width);
+        byte[] inputS = compressor.reduceVideoSizeWithCustomRes(file.getBytes(), VideoFormats.MP4, customRes);
+
+        ByteArrayInputStream bis = new ByteArrayInputStream(inputS);
+
+        while(Files.exists(rootLocation.resolve(filename))) {
+
+
+            String suffix = Long.toString(System.currentTimeMillis());
+            suffix = suffix.substring(suffix.length()-6);
+
+            filename = name + "_" + suffix + "." + extension;
+        }
+
+        try {
+
+            if (file.isEmpty())
+                throw new StorageException("El fichero subido está vacío");
+
+
+            try (InputStream inputStream = bis) {
+                Files.copy(inputStream, rootLocation.resolve(filename),
+                        StandardCopyOption.REPLACE_EXISTING);
+            }
+
+
+
+        } catch (IOException ex) {
+            throw new StorageException("Error en el almacenamiento del fichero: " + filename, ex);
+        }
+
+
+        return filename;
+    }
+
 
     public Stream<Path> loadAll() {
         try {

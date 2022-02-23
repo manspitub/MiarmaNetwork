@@ -8,6 +8,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  bool isLiked = false;
+  bool isHeartAnimated = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,13 +125,15 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          FadeInImage(
-            placeholder: AssetImage('assets/loading.gif'),
-            image: NetworkImage(
+          //TODO  Añadir efecto like
+          AspectRatio(
+            child: Image.network(
               'https://dc722jrlp2zu8.cloudfront.net/media/teachers/luis-miguel-lopez-f2.webp',
+              fit: BoxFit.cover
             ),
-            fit: BoxFit.cover,
+             aspectRatio: 1,
           ),
+          Icon(Icons.favorite, color: Colors.white, size: 100,),
           Container(
             padding: EdgeInsets.only(top: 5, left: 7, right: 7, bottom: 1),
             child: Row(
@@ -182,4 +187,18 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+  
 }
+Widget buildPost() => GestureDetector(
+  child: Stack(
+    alignment: Alignment.center,
+    children: [
+      AspectRatio(
+        aspectRatio: 1,
+        child: Image.network("https://dc722jrlp2zu8.cloudfront.net/media/teachers/luis-miguel-lopez-f2.webp", fit: BoxFit.cover,),
+      ),
+      Icon(Icons.favorite, color: Colors.white, size: 100,)
+      
+    ],
+  ),
+);

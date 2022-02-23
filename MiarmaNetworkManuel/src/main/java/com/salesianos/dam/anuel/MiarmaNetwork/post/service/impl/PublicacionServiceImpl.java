@@ -26,7 +26,7 @@ public class PublicacionServiceImpl extends BaseService<Publicacion, Long, Publi
 
     @Override
     public Publicacion save(CreatePublicacionDto publicacionDto, MultipartFile file, @AuthenticationPrincipal User currentUser) {
-        String filename = storageService.store(file);
+        String filename = storageService.storeNormal(file);
 
 
         String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
