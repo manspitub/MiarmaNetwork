@@ -1,18 +1,42 @@
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key, required this.userEmail}) : super(key: key);
 
+  final String userEmail;
+  
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeScreenState createState() =>  _HomeScreenState();
+
+   void _showSnackbar(BuildContext context, ) {
+    final snackBar = SnackBar(
+      content:  Text('Welcome again '+userEmail),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
 }
 
-class _HomeScreenState extends State<HomeScreen> {
 
+ 
+
+class _HomeScreenState extends State<HomeScreen> {
+  
+
+
+  
+
+ 
+
+
+  int likes = 200;
   bool isLiked = false;
   bool isHeartAnimated = false;
+
+ 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
         backgroundColor: Color(0xFFF9F9F9),
         appBar: AppBar(
@@ -126,14 +150,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           //TODO  Añadir efecto like
-          AspectRatio(
-            child: Image.network(
-              'https://dc722jrlp2zu8.cloudfront.net/media/teachers/luis-miguel-lopez-f2.webp',
-              fit: BoxFit.cover
-            ),
-             aspectRatio: 1,
+          FadeInImage(
+          
+            placeholder: AssetImage('assets/loading.gif'),
+            image: NetworkImage('https://dc722jrlp2zu8.cloudfront.net/media/teachers/luis-miguel-lopez-f2.webp', ),
+            fit: BoxFit.cover,
+          
+          
           ),
-          Icon(Icons.favorite, color: Colors.white, size: 100,),
           Container(
             padding: EdgeInsets.only(top: 5, left: 7, right: 7, bottom: 1),
             child: Row(
@@ -144,7 +168,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     setState(() {
                       if(_iconColor == Colors.black){
                         _iconColor = Colors.red;
+                        likes = likes +1;
                       } else{
+                        likes = likes -1;
                         _iconColor =   Colors.black;
                       }
                      
@@ -176,29 +202,21 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Container(
+            color: Colors.white,
+            padding: EdgeInsets.only(left: 17.0, right: 17.0, bottom: 10.0),
+            
             child: Row(
-              children: <Widget>[
-                Text("200"),
-                Icon(Icons.favorite, color: Colors.red,)
+              children: [
+                Text("Liked By ", ),
+                Text(likes.toString()+" users" ,style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),) 
               ],
             ),
-          )
+
+          ),
+          
         ],
       ),
     );
   }
   
 }
-Widget buildPost() => GestureDetector(
-  child: Stack(
-    alignment: Alignment.center,
-    children: [
-      AspectRatio(
-        aspectRatio: 1,
-        child: Image.network("https://dc722jrlp2zu8.cloudfront.net/media/teachers/luis-miguel-lopez-f2.webp", fit: BoxFit.cover,),
-      ),
-      Icon(Icons.favorite, color: Colors.white, size: 100,)
-      
-    ],
-  ),
-);

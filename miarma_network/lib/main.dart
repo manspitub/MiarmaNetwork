@@ -20,11 +20,10 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       initialRoute: '/',
   routes: {
-    // When navigating to the "/" route, build the FirstScreen widget.
-    '/': (context) => const HomeScreen(),
-    // When navigating to the "/second" route, build the SecondScreen widget.
+    '/': (context) => const LoginScreen(),
     '/config': (context) => const ConfigScreen(),
     '/profile': (context) => const ProfileScreen(),
+    '/home':(context) => const HomeScreen(),
     '/menu': (context) => const MenuScreen(),
     '/login': (context) => const LoginScreen(),
     '/register': (context) => const RegisterScreen(),
