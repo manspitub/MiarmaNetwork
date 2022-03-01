@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:miarma_network/screens/login_screen.dart';
+import 'package:miarma_network/screens/menu_screen.dart';
+import 'package:miarma_network/screens/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.userEmail}) : super(key: key);
@@ -8,24 +11,24 @@ class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() =>  _HomeScreenState();
 
-   void _showSnackbar(BuildContext context, ) {
+   void showSnackbar(BuildContext context, ) {
     final snackBar = SnackBar(
       content:  Text('Welcome again '+userEmail),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
+   
+
 }
-
-
+ 
  
 
 class _HomeScreenState extends State<HomeScreen> {
   
 
 
-  
-
+ 
  
 
 
@@ -33,11 +36,32 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLiked = false;
   bool isHeartAnimated = false;
 
+
+    int _selected = 0;
+
+  List<Widget> _widget = <Widget>[
+    HomeScreen(userEmail: '',),
+    MenuScreen(),
+    ProfileScreen()
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selected = index;
+    });
+  }
+  
  
   @override
   Widget build(BuildContext context) {
     
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.grey[800],
+        items: const<BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icons.home, label: 'Home'),
+        ],
+      ),
         backgroundColor: Color(0xFFF9F9F9),
         appBar: AppBar(
           bottom: PreferredSize(
@@ -125,6 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: EdgeInsets.only(
                         top: 12, left: 18, bottom: 12, right: 2),
                     child: ClipRRect(
+                      
                       borderRadius: BorderRadius.circular(50),
                       child: Image(
                           image: NetworkImage(

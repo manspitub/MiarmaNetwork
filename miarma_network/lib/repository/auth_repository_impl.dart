@@ -16,7 +16,7 @@ class AuthRepositoryImpl extends AuthRepository {
     };
 
     final response = await _client.post(
-        Uri.parse('https://localhost:8080/auth/login'),
+        Uri.parse('https://localhost:4000/auth/login'),
         headers: headers,
         body: jsonEncode(loginDto.toJson()));
     if (response.statusCode == 200) {

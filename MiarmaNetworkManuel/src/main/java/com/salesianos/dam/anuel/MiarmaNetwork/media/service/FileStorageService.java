@@ -1,6 +1,6 @@
 package com.salesianos.dam.anuel.MiarmaNetwork.media.service;
 
-import com.salesianos.dam.anuel.MiarmaNetwork.media.config.ResourceConfig;
+import com.salesianos.dam.anuel.MiarmaNetwork.media.config.StorageProperties;
 import com.salesianos.dam.anuel.MiarmaNetwork.media.exceptions.FileNotFoundException;
 import com.salesianos.dam.anuel.MiarmaNetwork.media.exceptions.StorageException;
 
@@ -9,12 +9,9 @@ import io.github.techgnious.IVCompressor;
 import io.github.techgnious.dto.IVSize;
 import io.github.techgnious.dto.ImageFormats;
 import io.github.techgnious.dto.VideoFormats;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FilenameUtils;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
@@ -22,28 +19,28 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
-import java.beans.BeanProperty;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.UUID;
 import java.util.stream.Stream;
 
 @Service
+@RequiredArgsConstructor
 public class FileStorageService {
+
 
     private final Path rootLocation;
 
     @Autowired
-    public FileStorageService(ResourceConfig properties) {
+    public FileStorageService( StorageProperties properties) {
         this.rootLocation = Paths.get(properties.getLocation());
     }
+
 
 
     @PostConstruct

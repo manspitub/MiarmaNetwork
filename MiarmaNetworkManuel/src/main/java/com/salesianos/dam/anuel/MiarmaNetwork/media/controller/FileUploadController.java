@@ -4,6 +4,7 @@ import com.salesianos.dam.anuel.MiarmaNetwork.media.payload.UploadFilePayload;
 import com.salesianos.dam.anuel.MiarmaNetwork.media.service.FileStorageService;
 import com.salesianos.dam.anuel.MiarmaNetwork.media.utils.MediaTypeUrlResource;
 import com.salesianos.dam.anuel.MiarmaNetwork.users.model.User;
+import com.salesianos.dam.anuel.MiarmaNetwork.users.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -21,28 +22,15 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class FileUploadController {
 
+
     private final FileStorageService storageService;
+    private final UserService service;
 
 
-    @PostMapping("/upload")
-    public ResponseEntity<?> upload(@RequestPart("file") MultipartFile file) {
 
-        String name = storageService.storeNormal(file);
-
-        String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/download/")
-                .path(name)
-                .toUriString();
-
-        UploadFilePayload response = UploadFilePayload.builder()
-                .name(name)
-                .size(file.getSize())
-                .type(file.getContentType())
-                .uri(uri)
-                .build();
-
-        return ResponseEntity.created(URI.create(uri)).body(response);
-
+    @GetMapping("/filenames")
+    public ResponseEntity<?> findAll(){
+        return ResponseEntity.ok(storageService.loadAll());
     }
 
     @GetMapping("/download/{filename:.+}")
