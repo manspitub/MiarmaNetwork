@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:miarma_network/main.dart';
 
 import 'package:miarma_network/repository/auth_repository.dart';
 import 'package:miarma_network/repository/auth_repository_impl.dart';
@@ -134,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(userEmail: emailController.toString(),)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MyStatefulWidget()));
               if (_formKey.currentState!.validate()) {
                 final loginDto = LoginDto(
                     email: emailController.text,

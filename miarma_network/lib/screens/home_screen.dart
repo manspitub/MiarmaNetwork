@@ -37,31 +37,17 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isHeartAnimated = false;
 
 
-    int _selected = 0;
 
-  List<Widget> _widget = <Widget>[
-    HomeScreen(userEmail: '',),
-    MenuScreen(),
-    ProfileScreen()
-  ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selected = index;
-    });
-  }
+
+  
   
  
   @override
   Widget build(BuildContext context) {
     
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.grey[800],
-        items: const<BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icons.home, label: 'Home'),
-        ],
-      ),
+      
         backgroundColor: Color(0xFFF9F9F9),
         appBar: AppBar(
           bottom: PreferredSize(

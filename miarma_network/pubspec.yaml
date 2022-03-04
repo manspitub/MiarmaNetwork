@@ -38,6 +38,7 @@ dependencies:
   bloc: ^8.0.2
   equatable: ^2.0.3
   flutter_bloc: ^8.0.1
+  flutter_webview_plugin: ^0.4.0
 
 dev_dependencies:
   flutter_test:

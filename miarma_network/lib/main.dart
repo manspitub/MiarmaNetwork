@@ -19,25 +19,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       initialRoute: '/',
-  routes: {
-    '/': (context) => const LoginScreen(),
-    '/config': (context) => const ConfigScreen(),
-    '/profile': (context) => const ProfileScreen(),
-    '/home':(context) => const HomeScreen(userEmail: '',),
-    '/menu': (context) => const MenuScreen(),
-    '/login': (context) => const LoginScreen(),
-    '/register': (context) => const RegisterScreen(),
-
-
-
-
-  },  
+      routes: {
+        '/': (context) => const LoginScreen(),
+        '/config': (context) => const ConfigScreen(),
+        '/profile': (context) => const ProfileScreen(),
+        '/home': (context) => const HomeScreen(
+              userEmail: '',
+            ),
+        '/menu': (context) => const MenuScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/register': (context) => const RegisterScreen(),
+      },
       theme: ThemeData(
-        
         primarySwatch: Colors.blue,
       ),
-      
-
     );
   }
 }
@@ -50,60 +45,59 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
+  int _selected = 0;
+
+  List<Widget> _widget = <Widget>[
+    HomeScreen(
+      userEmail: '',
     ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
+    MenuScreen(),
+    ProfileScreen()
   ];
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      _selected = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('BottomNavigationBar Sample'),
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      body: _widget.elementAt(_selected),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home, color: Colors.grey),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
+            icon: Icon(
+              Icons.search,
+              color: Colors.grey,
+            ),
+            label: 'Discover',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(
+              Icons.person,
+              color: Colors.grey,
+            ),
+            label: 'Profile',
           ),
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        currentIndex: _selected,
+        selectedItemColor: Colors.black87,
+        unselectedItemColor: Colors.grey,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        iconSize: 40.0,
+        type: BottomNavigationBarType.fixed,
         onTap: _onItemTapped,
       ),
     );
   }
+
+  
 }
-
-

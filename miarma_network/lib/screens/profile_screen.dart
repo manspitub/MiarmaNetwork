@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:miarma_network/models/user_me.dart';
+import 'package:miarma_network/models/user_media_displayed.dart';
 import 'package:miarma_network/utils/text_utils.dart';
+import 'package:http/http.dart' as http;
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -8,7 +13,8 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen>
+    with SingleTickerProviderStateMixin {
   final TextUtils _textUtils = TextUtils();
 
   late TabController tabController;
@@ -20,6 +26,13 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
     tabController = TabController(length: 2, vsync: this);
   }
+
+  late Future<String> items = fetchMediaDisplayedUrl();
+  late Future<String> items2 = fetchMediaDisplayedUsername();
+  late Future<String> items3 = getUserMe();
+  
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +55,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const CircleAvatar(
-                              radius: 45, backgroundImage: NetworkImage("https://images.unsplash.com/photo-1564564295391-7f24f26f568b")),
+                              radius: 45,
+                              backgroundImage: NetworkImage(
+                                  "https://images.unsplash.com/photo-1564564295391-7f24f26f568b")),
                           const SizedBox(height: 10),
-                          _textUtils.normal16("Junaid Khan", Colors.white)
+                          _textUtils.normal16(getUserMe().toString(), Colors.white)
                         ],
                       ),
                     ),
@@ -88,10 +103,13 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                       flex: 8,
                       child: Container(
                         height: 40,
-                        decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(5)),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(5)),
                         padding: const EdgeInsets.all(8),
                         child: Center(
-                          child: _textUtils.normal16("Edit Profile", Colors.white),
+                          child:
+                              _textUtils.normal16("Edit Profile", Colors.white),
                         ),
                       ),
                     ),
@@ -102,7 +120,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                       flex: 1,
                       child: Container(
                         height: 40,
-                        decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(5)),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(5)),
                         padding: const EdgeInsets.all(8),
                         child: const Icon(
                           Icons.keyboard_arrow_down,
@@ -126,7 +146,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                             const SizedBox(
                               height: 5,
                             ),
-                            _textUtils.normal14("Keep your favourite stories on your profile", Colors.white)
+                            _textUtils.normal14(
+                                "Keep your favourite stories on your profile",
+                                Colors.white)
                           ],
                         ),
                         flex: 9,
@@ -156,7 +178,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                   onPressed: () {},
                                   child: const Icon(Icons.add, size: 35),
                                   style: ElevatedButton.styleFrom(
-                                      shape: const CircleBorder(side: BorderSide(color: Colors.white)),
+                                      shape: const CircleBorder(
+                                          side:
+                                              BorderSide(color: Colors.white)),
                                       padding: const EdgeInsets.all(15),
                                       primary: Colors.transparent)),
                               const SizedBox(
@@ -170,7 +194,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   ),
                 ),
               ),
-
               TabBar(
                 indicatorColor: Colors.white,
                 indicatorWeight: 0.8,
@@ -182,7 +205,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   Tab(icon: Icon(Icons.person_pin_outlined)),
                 ],
               ),
-
               Expanded(
                 child: TabBarView(
                   controller: tabController,
@@ -190,30 +212,20 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     GridView.count(
                       controller: scrollController,
                       crossAxisCount: 3,
-                      children: [
-                        for (int i = 0; i < 9; i++)
-                          Container(
-                            margin: const EdgeInsets.only(right: 3, top: 3),
-                            child: Image.asset(
-                              "assets/luismi.jpg",
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                      ],
+                      children: [],
                     ),
                     GridView.count(
                       controller: scrollController,
                       crossAxisCount: 3,
                       children: [
-                        for (int i = 0; i < 9; i++)
+                        for (int i = 0; i < 7; i++)
                           Container(
-                            margin: const EdgeInsets.only(right: 3, top: 3),
-                            child: Image.asset(
-                              "assets/luismi.jpg",
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                      ],
+                              margin: const EdgeInsets.only(right: 3, top: 3),
+                              child: SizedBox(
+                                child: Image.network(
+                                    fetchMediaDisplayedUrl().toString(),
+                              ))
+                          )],
                     )
                   ],
                 ),
@@ -233,5 +245,39 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
         backgroundColor: Color(0xFF3E3E3E),
       ),
     );
+  }
+
+  Future<String> fetchMediaDisplayedUrl() async {
+    final response = await http.get(Uri.parse(
+        'https://graph.instagram.com/18059112139273906?fields=id,media_type,media_url,username,timestamp&access_token=IGQVJYemJ1YmxjTkwyd09MTnU1RWU0U0dtS1pjYS1lOVhJU3ZAmLVpTcjc1M3BCLVVaT2pNaVR6WW54VkR1Q050bjBwM0hPZA2lIUVJOeHVHTFNPZAV9SVXhmd3JmRTRIZAUg1TzU1NXU0VzVvcnF1d21CXwZDZD'));
+    if (response.statusCode == 200) {
+      return MediaDisplayedRespose.fromJson(jsonDecode(response.body)).mediaUrl;
+    } else {
+      throw Exception('Failed to load planets');
+    }
+  }
+
+  Future<String> fetchMediaDisplayedUsername() async {
+    final response = await http.get(Uri.parse(
+        'https://graph.instagram.com/18059112139273906?fields=id,media_type,media_url,username,timestamp&access_token=IGQVJYemJ1YmxjTkwyd09MTnU1RWU0U0dtS1pjYS1lOVhJU3ZAmLVpTcjc1M3BCLVVaT2pNaVR6WW54VkR1Q050bjBwM0hPZA2lIUVJOeHVHTFNPZAV9SVXhmd3JmRTRIZAUg1TzU1NXU0VzVvcnF1d21CXwZDZD'));
+    if (response.statusCode == 200) {
+      return MediaDisplayedRespose.fromJson(jsonDecode(response.body)).username;
+    } else {
+      throw Exception('Failed to load planets');
+    }
+  }
+
+  Future<String> getUserMe() async {
+    
+
+    var url = "https://graph.instagram.com/v13.0/me?fields=media_count,account_type,username&access_token=IGQVJWMmpYdkx4akszNHBLcTNyRmM3bm5HeUZAFckxiS0NCTjg2X09EdFFVNGd5MGcwSlk0RHBKZAFRpTzd2ZAEJZAaFVFbURGbmRlNi1xby1JNFFHNU1DcmI1cVA5OVpSaS00RkxNdDVuOW1NWHZAJSzdyZAwZDZD";
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      return UserMeResponse.fromJson(jsonDecode(response.body)).username;
+  } else {
+    throw Exception('Failed to load hourly weather');
+  }
   }
 }
